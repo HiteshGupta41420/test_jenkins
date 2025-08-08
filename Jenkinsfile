@@ -9,7 +9,7 @@ pipeline {
                     branches: [[name: '*/main']],
                     userRemoteConfigs: [[
                         url: 'https://github.com/HiteshGupta41420/test-jenkins.git',
-                        credentialsId: 'my-github-creds'
+                        credentialsId: 'GitCred'
                     ]]
                 ])
             }
