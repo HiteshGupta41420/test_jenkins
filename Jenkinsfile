@@ -1,10 +1,26 @@
 pipeline {
-    agent { docker { image 'python:3.10.7-alpine' } }
-    stages {
-        stage('build') {
-            steps {
-                sh 'python --version'
-            }
-        }
+  agent any
+
+  stages {
+    stage('Clone') {
+      steps {
+        git 'https://github.com/HiteshGupta41420/test_jenkins.git'
+      }
     }
+    stage('Build') {
+      steps {
+        echo 'Building the app...'
+      }
+    }
+    stage('Test') {
+      steps {
+        echo 'Running tests...'
+      }
+    }
+    stage('Deploy') {
+      steps {
+        echo 'Deploying...'
+      }
+    }
+  }
 }
