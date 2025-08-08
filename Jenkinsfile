@@ -1,33 +1,30 @@
 pipeline {
-  agent any
+    agent any
 
-  stages {
-    stage('Checkout') {
+    stages {
+        stage('Checkout') {
             steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/HiteshGupta41420/test_jenkins.git',
-                        credentialsId: 'GitCred'
-                    ]]
-                ])
+                // Will use the repo + credentials from job config
+                checkout scm
             }
+        }
+
+        stage('Build') {
+            steps {
+                echo "Building the application..."
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo "Running tests..."
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying the application..."
+            }
+        }
     }
-    stage('Build') {
-      steps {
-        echo 'Building the app...'
-      }
-    }
-    stage('Test') {
-      steps {
-        echo 'Running tests...'
-      }
-    }
-    stage('Deploy') {
-      steps {
-        echo 'Deploying...'
-      }
-    }
-  }
 }
