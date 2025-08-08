@@ -2,10 +2,17 @@ pipeline {
   agent any
 
   stages {
-    stage('Clone') {
-      steps {
-        git 'https://github.com/HiteshGupta41420/test_jenkins.git'
-      }
+    stage('Checkout') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/HiteshGupta41420/test-jenkins.git',
+                        credentialsId: 'my-github-creds'
+                    ]]
+                ])
+            }
     }
     stage('Build') {
       steps {
