@@ -8,7 +8,7 @@ pipeline {
                     $class: 'GitSCM',
                     branches: [[name: '*/main']],
                     userRemoteConfigs: [[
-                        url: 'https://github.com/HiteshGupta41420/test-jenkins.git',
+                        url: 'https://github.com/HiteshGupta41420/test_jenkins.git',
                         credentialsId: 'GitCred'
                     ]]
                 ])
