@@ -1,22 +1,15 @@
 pipeline {
     agent any
-    parameters {
-        string(name: 'APP_VERSION', defaultValue: '1.0.0', description: 'Version of the app to deploy')
-        choice(name: 'DEPLOY_ENV', choices: ['dev', 'qa', 'prod'], description: 'Target environment')
-        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Run unit tests?')
+    environment {
+        DOCKER_USER = credentials('guptahiteshstudy')
+        DOCKER_PASS = credentials('h)T-E9/D6CBp?QD')
     }
     stages {
-        stage('Build') {
+        stage('Docker Login') {
             steps {
-                echo "Building version ${params.APP_VERSION} for ${params.DEPLOY_ENV}"
-            }
-        }
-        stage('Test') {
-            when {
-                expression { params.RUN_TESTS == true }
-            }
-            steps {
-                echo "Running tests..."
+                sh """
+                echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                """
             }
         }
     }
