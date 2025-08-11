@@ -2,7 +2,7 @@ pipeline {
     agent {
         dockerContainer {
             image 'docker:dind' // 'docker:dind' or 'docker:latest' with socket mount
-            args '-v /var/run/docker.sock:/var/run/docker.sock' // This is the key
+            // args '-v /var/run/docker.sock:/var/run/docker.sock' // This is the key
         }
     }
 
