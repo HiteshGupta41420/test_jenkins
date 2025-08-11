@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        withCredentials([usernamePassword(credentialsId: 'guptahiteshstudy', usernameVariable: 'DOCKER_USER', passwordVariable: 'h)T-E9/D6CBp?QD')]) {
+                        withCredentials([usernamePassword(credentialsId: 'docker-cred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                             // The DOCKER_USER and DOCKER_PASS environment variables
                             // are now available and safe to use within this block.
 
