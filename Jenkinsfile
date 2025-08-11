@@ -1,20 +1,27 @@
 pipeline {
     agent any
-    environment {
-        DOCKER_USER = credentials("guptahiteshstudy")
-        DOCKER_PASS = credentials("h)T-E9/D6CBp?QD")
-    }
+
     stages {
         stage('Docker Login') {
-            steps{
+            steps {
                 script {
-                    try{
-                        echo $DOCKER_USER
-                        echo $DOCKER_PASS
-                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                    } catch (e){
-                        echo "An error occured"
-                        echo "Error message: ${e.message}" 
+                    try {
+                        withCredentials([usernamePassword(credentialsId: 'guptahiteshstudy', usernameVariable: 'DOCKER_USER', passwordVariable: 'h)T-E9/D6CBp?QD')]) {
+                            // The DOCKER_USER and DOCKER_PASS environment variables
+                            // are now available and safe to use within this block.
+
+                            echo "Attempting to log in to Docker registry..."
+
+                            // Pass the password to Docker via standard input to avoid logging it.
+                            sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
+                        }
+                        echo "Docker login successful."
+                    } catch (e) {
+                        // The 'catch' block will run if the Docker login command fails.
+                        echo "An error occurred during Docker login."
+                        echo "Error message: ${e.message}"
+                        currentBuild.result = 'FAILURE'
+                        error "Pipeline failed due to a Docker login error."
                     }
                 }
             }
