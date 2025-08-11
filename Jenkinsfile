@@ -6,14 +6,16 @@ pipeline {
     }
     stages {
         stage('Docker Login') {
-            script {
-                try{
-                    echo $DOCKER_USER
-                    echo $DOCKER_PASS
-                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                } catch (e){
-                    echo "An error occured"
-                    echo "Error message: ${e.message}" 
+            steps{
+                script {
+                    try{
+                        echo $DOCKER_USER
+                        echo $DOCKER_PASS
+                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                    } catch (e){
+                        echo "An error occured"
+                        echo "Error message: ${e.message}" 
+                    }
                 }
             }
         }
