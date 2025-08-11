@@ -29,7 +29,7 @@ pipeline {
             echo 'Pipeline finished.'
         }
         success {
-            echo 'Build successful! 🎉'
+            echo 'Build successful!!! 🎉'
         }
         failure {
             echo 'Build failed! ❌ Check the console output for details.'
