@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', credentialsId: '                        credentialsId: 'GitCred', url: 'https://github.com/HiteshGupta41420/test_jenkins.git'
+                git branch: 'main', credentialsId: 'GitCred', url: 'https://github.com/HiteshGupta41420/test_jenkins.git'
                 // NOTE: 'credentialsId' is needed if your repo is private.
                 // For a public repo, you can omit 'credentialsId' and 'credentials:' parameter above.
                 // If you use a public repo, ensure the URL is also public.
