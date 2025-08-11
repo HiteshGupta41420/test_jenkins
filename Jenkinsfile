@@ -1,35 +1,39 @@
 pipeline {
-    agent {
-        dockerContainer {
-            image 'docker:dind' // 'docker:dind' or 'docker:latest' with socket mount
-            // args '-v /var/run/docker.sock:/var/run/docker.sock' // This is the key
-        }
-    }
+    agent any
 
     stages {
-        stage('Docker Login') {
+        stage('Checkout Code') {
             steps {
-                script {
-                    try {
-                        withCredentials([usernamePassword(credentialsId: 'docker-cred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                            // The DOCKER_USER and DOCKER_PASS environment variables
-                            // are now available and safe to use within this block.
-
-                            echo "Attempting to log in to Docker registry..."
-
-                            // Pass the password to Docker via standard input to avoid logging it.
-                            sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
-                        }
-                        echo "Docker login successful."
-                    } catch (e) {
-                        // The 'catch' block will run if the Docker login command fails.
-                        echo "An error occurred during Docker login."
-                        echo "Error message: ${e.message}"
-                        currentBuild.result = 'FAILURE'
-                        error "Pipeline failed due to a Docker login error."
-                    }
-                }
+                git branch: 'main', credentialsId: '                        credentialsId: 'GitCred', url: 'https://github.com/HiteshGupta41420/test_jenkins.git'
+                // NOTE: 'credentialsId' is needed if your repo is private.
+                // For a public repo, you can omit 'credentialsId' and 'credentials:' parameter above.
+                // If you use a public repo, ensure the URL is also public.
+                // You might need to set up a 'Username with password' credential in Jenkins for your GitHub account.
             }
+        }
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing Python dependencies...'
+                sh 'pip install -r ./my-app/requirements.txt'
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                echo 'Running tests...'
+                sh 'pytest' // Or 'python -m unittest discover' or similar
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Pipeline finished.'
+        }
+        success {
+            echo 'Build successful! 🎉'
+        }
+        failure {
+            echo 'Build failed! ❌ Check the console output for details.'
+            // You could add email notifications here later
         }
     }
 }
