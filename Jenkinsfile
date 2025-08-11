@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Run Tests') {
             steps {
-                echo 'Running tests...'
+                echo 'Running tests....'
                 sh 'pytest' // Or 'python -m unittest discover' or similar
             }
         }
